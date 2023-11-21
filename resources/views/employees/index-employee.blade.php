@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
-            <h1 class="mb-0 mt-4">List of Employees</h1>
+            <h4 class="mb-0 mt-4">List of Employees</h4>
             <a href="{{ route('employee.create') }}" class="btn btn-primary">+ Add Employee</a>
         </div>
         <hr />
@@ -22,7 +22,7 @@
                     <th>Username</th>
                     {{-- <th>Project<br>Assigned To</th> --}}
                     <th>Email</th>
-                    <th>Password</th>
+                    {{-- <th>Password</th> --}}
                     <th>Action</th>
                 </tr>
             </thead>
@@ -34,8 +34,9 @@
                             <td class="align-middle">{{ $rs->firstname }}</td>
                             <td class="align-middle">{{ $rs->lastname }}</td>
                             <td class="align-middle">{{ $rs->username }}</td>
+                            {{-- <td class="align-middle">{{ $rs->projectassignedto }}</td> --}}
                             <td class="align-middle">{{ $rs->email }}</td>
-                            <td class="align-middle">{{ $rs->password }}</td>
+                            {{-- <td class="align-middle">{{ $rs->password }}</td> --}}
                             <td class="align-middle">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <a href="{{ route('employee.show', $rs->id) }}" type="button"

@@ -28,7 +28,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required'],
         ];
     }
 
@@ -41,16 +41,23 @@ class LoginRequest extends FormRequest
     {
         // dd("emp");
         // dd(Auth::guard('emp'));
+
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::guard('emp')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            // dd("emp if loop");
+        if (!Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+
             RateLimiter::hit($this->throttleKey());
 
+
             throw ValidationException::withMessages([
+
                 'email' => trans('auth.failed'),
+
             ]);
+
+
         }
+
 
         RateLimiter::clear($this->throttleKey());
     }

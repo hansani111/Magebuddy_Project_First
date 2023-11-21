@@ -5,8 +5,8 @@
         <h4>Welcome, {{ Auth::guard('emp')->user()->email }}!!!</h4>
         <p>{{ $user->firstname }} Project List....</p>
         <ul>
-            @if ($data->count() > 0)
-                @foreach ($data as $rs)
+            @if ($project1->count() > 0)
+                @foreach ($project1 as $rs)
                     <li>{{ $rs->project_name }}</li>
                 @endforeach
             @else

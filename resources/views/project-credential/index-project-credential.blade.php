@@ -3,7 +3,7 @@
 @section('contents')
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
-            <h1 class="mb-0 mt-4">List of Projects</h1>
+            <h4 class="mb-0 mt-4">List of Projects</h4>
             <a href="{{ route('project-credentials.create') }}" class="btn btn-primary">+ Add Project</a>
         </div>
         <hr />
@@ -17,7 +17,7 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Assigned To</th>
+                    {{-- <th>Assigned To</th> --}}
                     <th>Url</th>
                     <th>Username</th>
                     <th>Password</th>
@@ -31,7 +31,7 @@
                         <tr>
                             <td class="align-middle">{{ $loop->iteration }}</td>
                             <td class="align-middle">{{ $rs->project_name }}</td>
-                            <td class="align-middle">{{ $rs->emp_id }}</td>
+                            {{-- <td class="align-middle">{{ $rs->emp_id }}</td> --}}
                             <td class="align-middle"><a href="http://">{{ $rs->project_url }}</a></td>
                             <td class="align-middle">{{ $rs->project_username }}</td>
                             <td class="align-middle">{{ $rs->project_password }}</td>

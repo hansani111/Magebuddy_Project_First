@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Employee | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -112,7 +112,7 @@
         <!-- AdminLTE App -->
         <script src="{{ asset('asset/dist/js/adminlte.js') }}"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="{{ asset('asset/dist/js/demo.js') }}"></script>
+
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="{{ asset('asset/dist/js/pages/dashboard.js') }}"></script>
 </body>

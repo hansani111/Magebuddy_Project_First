@@ -11,7 +11,7 @@ class ProjectCredential extends Model
 
     protected $fillable = [
         'project_name',
-        'emp_id',
+
         'project_url',
         'project_username',
         'project_password'
@@ -34,7 +34,7 @@ class ProjectCredential extends Model
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'project_password' => 'hashed',
+        // 'project_password' => 'hashed',
     ];
 
 

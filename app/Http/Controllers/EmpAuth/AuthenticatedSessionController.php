@@ -4,7 +4,7 @@ namespace App\Http\Controllers\EmpAuth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmpAuth\LoginRequest;
-use App\Models\ProjectCredential;
+use App\Models\Emp;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,8 +26,28 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-        $request->session()->regenerate();
+        // $request->authenticate();
+
+        // $request->session()->regenerate();
+        // dd($request);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        if (!Auth::guard('emp')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            // dd("yes");
+            return redirect()->intended('/emp/dashboard/emp_project');
+
+        }
+
+
+
+        // $request->authenticate();
+
+        // // dd($data);
+
+        // $request->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::EMP_DASHBOARD);
     }
 

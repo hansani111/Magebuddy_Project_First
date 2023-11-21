@@ -35,7 +35,7 @@ class ProjectCredentialController extends Controller
         ProjectCredential::create([
 
             'project_name' => $request->project_name,
-            'emp_id' => $request->assigned_to,
+            // 'emp_id' => $request->assigned_to,
             'project_url' => $request->project_url,
             'project_username' => $request->project_username,
             'project_password' => $request->project_password,
@@ -76,7 +76,7 @@ class ProjectCredentialController extends Controller
         ])->update(
                 [
                     'project_name' => $request->project_name,
-                    'emp_id' => $request->assigned_to,
+                    // 'emp_id' => $request->assigned_to,
                     'project_url' => $request->project_url,
                     'project_username' => $request->project_username,
                     'project_password' => $request->project_password
@@ -94,8 +94,8 @@ class ProjectCredentialController extends Controller
         $project->delete();
         return redirect()->route('/admin/dashboard/project-credentials')->with('success', 'Project deleted successfully');
     }
-    public function emp()
-    {
-        return $this->belongsTo(Emp::class);
-    }
+    // public function emp()
+    // {
+    //     return $this->belongsTo(Emp::class);
+    // }
 }

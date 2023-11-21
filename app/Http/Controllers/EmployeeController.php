@@ -40,19 +40,23 @@ class EmployeeController extends Controller
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'username' => $request->username,
+            'projectassignedto' => json_encode($request->projectassignedto),
             'email' => $request->email,
             'password' => $request->password
         ]);
 
+        // send mail function
         $mailData = [
             'title' => 'Employee Credentials',
             'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password,
+            // 'link' => $request->project_url,
+
         ];
 
         Mail::to($request->email)->send(new MyEmail($mailData));
-        echo 'email send successfully';
+        // echo 'email send successfully';
 
         return redirect()->route('/admin/dashboard/employee')->with('success', 'Employee added successfully');
     }
@@ -62,10 +66,13 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Emp::findOrFail($id);
-        $projects = ProjectCredential::all();
-        $selected = explode(",", $projects);
-        return view('employees.show-employee', compact('employee', 'projects', 'selected'));
+        $employee = Emp::with('project_credential')->findOrFail($id);
+        $pdata = json_decode($employee->projectassignedto);
+        $intArray = array_map('intval', $pdata);
+        foreach ($intArray as $val) {
+            $projects[] = ProjectCredential::findOrFail($val);
+        }
+        return view('employees.show-employee', compact('employee', 'projects'));
     }
 
     /**
@@ -75,7 +82,10 @@ class EmployeeController extends Controller
     {
         $employee = Emp::findOrFail($id);
         $projects = ProjectCredential::all();
-        return view('employees.edit-employee', compact('employee', 'projects'));
+        $elements = json_decode($employee->projectassignedto);
+        $intArray = array_map('intval', $elements);
+        return view('employees.edit-employee', compact('employee', 'projects', 'intArray'));
+        // return view('employees.edit-employee', compact('employee', 'projects', 'project1'));
     }
 
     /**
@@ -90,6 +100,7 @@ class EmployeeController extends Controller
                     'firstname' => $request->firstname,
                     'lastname' => $request->lastname,
                     'username' => $request->username,
+                    'projectassignedto' => json_encode($request->projectassignedto),
                     'email' => $request->email,
                     'password' => $request->password
 
@@ -113,8 +124,17 @@ class EmployeeController extends Controller
     public function emp_project()
     {
         $user = Auth::guard('emp')->user();
-        $data = ProjectCredential::where('emp_id', $user->id)->get();
-        return view('emp.dashboard', compact('user', 'data'));
+
+        $data = Emp::where('id', $user->id)->get();
+        foreach ($data as $key => $value) {
+            $project = $value->projectassignedto;
+        }
+        $elements = json_decode($project);
+        $intArray = array_map('intval', $elements);
+        $project1 = ProjectCredential::whereIn('id', $intArray)->get();
+
+
+        return view('emp.dashboard', compact('user', 'project1'));
 
     }
 
@@ -127,7 +147,44 @@ class EmployeeController extends Controller
     public function showProjectsList()
     {
         $user = Auth::guard('emp')->user();
-        $data = ProjectCredential::where('emp_id', $user->id)->get();
-        return view('emp.projects-list', compact('user', 'data'));
+
+        $data = Emp::where('id', $user->id)->first();
+
+        // dd($data->projectassignedto);   "["2","3"]"
+
+        $elements = json_decode($data->projectassignedto);
+
+        // array:2 [▼ 
+        // 0 => "2"
+        // 1 => "3"
+        // ]
+
+        $intArray = array_map('intval', $elements);
+
+        // array:2 [▼ // app\Http\Controllers\EmployeeController.php:158
+        // 0 => 2
+        // 1 => 3
+        // ]
+
+        $project1 = ProjectCredential::whereIn('id', $intArray)->get();
+
+        // Illuminate\Database\Eloquent\Collection {#293 ▼ // app\Http\Controllers\EmployeeController.php:163
+        //     #items: array:2 [▼
+        //       0 => App\Models\ProjectCredential {#1249 ▶}
+        //       1 => App\Models\ProjectCredential {#1250 ▶}
+        //     ]
+        //     #escapeWhenCastingToString: false
+        //   }
+
+        return view('emp.projects-list', compact('user', 'project1'));
     }
 }
+
+// The intval() function returns the integer value of a variable.
+
+// The json_decode() function, which helps to convert a JSON object into a PHP object. 
+// It takes the input value as a string and returns a readable PHP object.
+
+// json_encode() is a native PHP function that allows you to convert PHP data into the JSON format. 
+
+// The array_map() function sends each value of an array to a user-made function, and returns an array with new values, given by the user-made function. 

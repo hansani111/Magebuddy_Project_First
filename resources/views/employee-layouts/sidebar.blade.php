@@ -88,7 +88,7 @@
                         <ul>
                             <li>
                                 <p>
-                                    Employee Project List
+                                    Employee Project
                                 </p>
                             </li>
                         </ul>
@@ -123,7 +123,7 @@
 
 
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -724,7 +724,7 @@
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p>Informational</p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

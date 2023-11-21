@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\EmpRegisterMailNotification;
+use App\Notifications\EmpResetPasswordNotification;
 use Laravel\Sanctum\HasApiTokens;
 
 class Emp extends Authenticatable implements MustVerifyEmail
@@ -21,6 +23,7 @@ class Emp extends Authenticatable implements MustVerifyEmail
         'firstname',
         'lastname',
         'username',
+        'projectassignedto',
         'email',
         'password'
     ];
@@ -45,10 +48,19 @@ class Emp extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    public function sendEmailVerificationNotification()
+    {
+        // $this->notify(new EmpRegisterMailNotification());
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new EmpResetPasswordNotification($token));
+    }
 
     public function project_credential()
     {
-        return $this->hasMany(ProjectCredential::class);
+        return $this->belongsTo(ProjectCredential::class);
     }
 
 }
